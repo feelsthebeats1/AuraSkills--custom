@@ -4,9 +4,11 @@ import dev.aurelium.auraskills.api.damage.DamageType;
 import dev.aurelium.auraskills.api.event.damage.DamageEvent;
 import dev.aurelium.auraskills.bukkit.AuraSkills;
 import dev.aurelium.auraskills.bukkit.damage.DamageHandler;
+import dev.aurelium.auraskills.bukkit.hooks.mythiclib.stats.MythiclibStatsUpdater;
 import dev.aurelium.auraskills.bukkit.hooks.mythicmobs.loot.MythicEntityLootParser;
 import dev.aurelium.auraskills.common.damage.DamageResult;
 import dev.aurelium.auraskills.common.hooks.Hook;
+import dev.aurelium.auraskills.common.user.User;
 import io.lumine.mythic.api.adapters.AbstractEntity;
 import io.lumine.mythic.bukkit.BukkitAdapter;
 import io.lumine.mythic.bukkit.MythicBukkit;
@@ -47,9 +49,10 @@ public class MythicMobsHook extends Hook implements Listener {
     @EventHandler
     public void onMythicSkillDamage(MythicDamageEvent event) {
         // This is always some sort of skill/mechanic damage.
+        syncMythicLibStats(event.getCaster().getEntity());
+        syncMythicLibStats(event.getTarget());
 
-        if (!getConfig().node("handle_damage_increase").getBoolean() &&
-                !getConfig().node("handle_damage_reduction").getBoolean()) {
+        if (!shouldHandleDamageIncrease() && !shouldHandleDamageReduction()) {
             return;
         }
 
@@ -90,11 +93,11 @@ public class MythicMobsHook extends Hook implements Listener {
             return;
         }
 
-        if (!getConfig().node("handle_damage_increase").getBoolean()) {
+        if (!shouldHandleDamageIncrease()) {
             event.getDamageMeta().clearAttackModifiers();
         }
 
-        if (!getConfig().node("handle_damage_reduction").getBoolean()) {
+        if (!shouldHandleDamageReduction()) {
             event.getDamageMeta().clearDefenseModifiers();
         }
     }
@@ -124,6 +127,32 @@ public class MythicMobsHook extends Hook implements Listener {
     @Override
     public Class<? extends Hook> getTypeClass() {
         return MythicMobsHook.class;
+    }
+
+    private boolean shouldHandleDamageIncrease() {
+        return !isMythicLibStatsHookEnabled() && getConfig().node("handle_damage_increase").getBoolean();
+    }
+
+    private boolean shouldHandleDamageReduction() {
+        return !isMythicLibStatsHookEnabled() && getConfig().node("handle_damage_reduction").getBoolean();
+    }
+
+    private boolean isMythicLibStatsHookEnabled() {
+        return plugin.getHookManager().isRegistered(MythiclibStatsUpdater.class);
+    }
+
+    private void syncMythicLibStats(AbstractEntity entity) {
+        if (!isMythicLibStatsHookEnabled() || !entity.isPlayer()) {
+            return;
+        }
+
+        Player player = BukkitAdapter.adapt(entity.asPlayer());
+        if (plugin.getWorldManager().isInDisabledWorld(player.getLocation()) || player.hasMetadata("NPC")) {
+            return;
+        }
+
+        User user = plugin.getUser(player);
+        plugin.getHookManager().getHook(MythiclibStatsUpdater.class).update(user);
     }
 
     private DamageType getDamageType(AbstractEntity attacker) {

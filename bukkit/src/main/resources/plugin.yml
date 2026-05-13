@@ -14,6 +14,8 @@ softdepend:
 - LuckPerms
 - Slimefun
 - Towny
+- MythicLib
+- MMOCore
 - MythicMobs
 - FancyHolograms
 api-version: '1.13'

@@ -8,6 +8,8 @@ repositories {
     maven("https://central.sonatype.com/repository/maven-snapshots/")
     maven("https://repo.aikar.co/content/groups/aikar/")
     maven("https://www.jitpack.io")
+
+
 }
 
 dependencies {
@@ -26,6 +28,9 @@ dependencies {
     compileOnly("com.google.guava:guava:33.2.1-jre")
     compileOnly("com.google.code.gson:gson:2.10")
     compileOnly("net.luckperms:api:5.4")
+
+
+
     testImplementation(platform("org.junit:junit-bom:5.13.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

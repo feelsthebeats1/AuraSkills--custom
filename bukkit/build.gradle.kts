@@ -1,5 +1,4 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import java.util.jar.JarFile
 
 plugins {
     `java-library`
@@ -32,6 +31,8 @@ repositories {
     maven("https://repo.nexomc.com/releases/")
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.fancyinnovations.com/releases")
+    maven("https://nexus.phoenixdevt.fr/repository/maven-public/")
+    maven("https://mvn.lumine.io/repository/maven/")
     mavenLocal()
 }
 
@@ -62,6 +63,12 @@ dependencies {
     compileOnly("io.lumine:Mythic-Dist:5.6.1")
     compileOnly("com.nexomc:nexo:1.6.0")
     compileOnly("de.oliver:FancyHolograms:2.8.0")
+
+    compileOnly("io.lumine:Mythic-Dist:5.8.2")
+    compileOnly("io.lumine:MythicLib-dist:1.6.2-SNAPSHOT")
+    compileOnly("net.Indyuce:MMOItems-API:6.9.5-SNAPSHOT")
+    compileOnly("net.Indyuce:MMOCore-API:1.12.1-SNAPSHOT")
+
     testImplementation(testFixtures(project(":common")))
     testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v1.21:4.108.0")
     testImplementation("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")

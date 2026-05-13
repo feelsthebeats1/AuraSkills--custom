@@ -1,6 +1,7 @@
 package dev.aurelium.auraskills.bukkit.hooks;
 
 import dev.aurelium.auraskills.bukkit.hooks.mythicmobs.MythicMobsHook;
+import dev.aurelium.auraskills.bukkit.hooks.mythiclib.stats.MythiclibStatsUpdater;
 import dev.aurelium.auraskills.common.hooks.Hook;
 import dev.aurelium.auraskills.common.hooks.HookType;
 
@@ -16,6 +17,7 @@ public enum Hooks implements HookType {
     TOWNY(TownyHook.class, "Towny"),
     VAULT(VaultHook.class, "Vault"),
     WORLD_GUARD(WorldGuardHook.class, "WorldGuard"),
+    MYTHIC_LIB(MythiclibStatsUpdater.class, "MythicLib"),
     MYTHIC_MOBS(MythicMobsHook.class, "MythicMobs"),
     NEXO(NexoHook.class, "Nexo", false);
 

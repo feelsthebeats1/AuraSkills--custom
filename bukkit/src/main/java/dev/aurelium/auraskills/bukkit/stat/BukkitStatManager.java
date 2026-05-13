@@ -4,6 +4,7 @@ import dev.aurelium.auraskills.api.bukkit.BukkitTraitHandler;
 import dev.aurelium.auraskills.api.stat.ReloadableIdentifier;
 import dev.aurelium.auraskills.api.stat.Stat;
 import dev.aurelium.auraskills.api.trait.Trait;
+import dev.aurelium.auraskills.bukkit.hooks.mythiclib.stats.MythiclibStatsUpdater;
 import dev.aurelium.auraskills.bukkit.trait.BukkitTraitManager;
 import dev.aurelium.auraskills.bukkit.user.BukkitUser;
 import dev.aurelium.auraskills.common.AuraSkillsPlugin;
@@ -27,6 +28,7 @@ public class BukkitStatManager extends StatManager {
         } else if (type instanceof Trait trait) {
             reloadTrait(user, player, trait);
         }
+        updateMythicLibStats(user);
     }
 
     @Override
@@ -39,6 +41,7 @@ public class BukkitStatManager extends StatManager {
                 impl.onReload(player, user.toApi(), trait);
             }
         }
+        updateMythicLibStats(user);
     }
 
     private void reloadStat(User user, Stat stat) {
@@ -56,6 +59,13 @@ public class BukkitStatManager extends StatManager {
         if (traitImpl == null) return;
 
         traitImpl.onReload(player, user.toApi(), trait);
+    }
+
+    private void updateMythicLibStats(User user) {
+        if (!plugin.getHookManager().isRegistered(MythiclibStatsUpdater.class)) {
+            return;
+        }
+        plugin.getHookManager().getHook(MythiclibStatsUpdater.class).update(user);
     }
 
 }

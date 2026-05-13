@@ -53,6 +53,54 @@ hooks:
       - 'Example'
     blocked_check_replace_regions:
       - 'Example'
+  MythicLib:
+    enabled: true
+    stat_mappings:
+      strength:
+        mythiclib_stats:
+          - ATTACK_DAMAGE
+        mmocore_attributes:
+          - strength
+      health:
+        mythiclib_stats:
+          - MAX_HEALTH
+        mmocore_attributes:
+          - health
+      regeneration:
+        mythiclib_stats:
+          - HEALTH_REGENERATION
+        mmocore_attributes:
+          - regeneration
+      luck:
+        mythiclib_stats:
+          - LUCK
+        mmocore_attributes:
+          - luck
+      wisdom:
+        mythiclib_stats:
+          - MAX_MANA
+        mmocore_attributes:
+          - wisdom
+      toughness:
+        mythiclib_stats:
+          - ARMOR_TOUGHNESS
+        mmocore_attributes:
+          - toughness
+      crit_chance:
+        mythiclib_stats:
+          - CRITICAL_STRIKE_CHANCE
+        mmocore_attributes:
+          - crit_chance
+      crit_damage:
+        mythiclib_stats:
+          - CRITICAL_STRIKE_POWER
+        mmocore_attributes:
+          - crit_damage
+      speed:
+        mythiclib_stats:
+          - MOVEMENT_SPEED
+        mmocore_attributes:
+          - speed
   MythicMobs:
     enabled: true
     handle_damage_increase: true
